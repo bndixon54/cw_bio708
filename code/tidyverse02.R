@@ -49,3 +49,36 @@ iris_w <- iris_sub %>%
                 names_to = "Species",
                 values_to = "Sepal.Length")
 
+# join --------------------------------------------------------------------
+ 
+#TIP: if you want to see the object appear every time you run the code, you can put parenthesis at the beginning and end of each line, like this: 
+(df1 <- tibble(Species = c("A", "B", "C"),
+              x = c(1, 2, 3))) 
+
+ 
+#combine two data frames into one, using column as an identifier 
+# matching by a single column
+## left join by "Species": one to one
+df1 <- tibble(Species = c("A", "B", "C"),
+               x = c(1, 2, 3))
+ 
+df2 <- tibble(Species = c("A", "B", "C"),
+              y = c(4, 5, 6))
+
+df12 <- left_join(x = df1,
+                 y = df2,
+                 by = "Species") #specify what column you want to use
+
+##what happens if df2 does not contain species B?
+df2_minus_B <- tibble(Species = c("A", "C"),
+                      y = c(4, 6))
+#join 
+thing <- left_join(x = df1,
+                   y = df2_minus_B,
+                   by = "Species")
+#if you swap the order on the x and y variables above, the species B from the baseline dataframe will be omitted completely 
+
+
+
+
+
