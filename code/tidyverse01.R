@@ -104,7 +104,7 @@ mutate(iris_sub, sl_two_times = 2 * Sepal.Length)
 
 
 #5.3.1 Piping 
-#might want to pick one clumn and thena dd another one; might want to do multiple manipulations for one data frame 
+#might want to pick one column and then add another one; might want to do multiple manipulations for one data frame 
 
 df_sl <- select(iris_sub, Sepal.Length)
 df_sl_2times <- mutate(df_sl, twice = 2 * Sepal.Length)
