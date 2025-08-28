@@ -80,5 +80,11 @@ thing <- left_join(x = df1,
 
 
 
+# additional resources ----------------------------------------------------
+
+#library(swirl)
+#install_course_github("sysilviakim", "swirl-tidy")
+#swirl()
+
 
 
