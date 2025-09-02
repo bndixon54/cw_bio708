@@ -51,3 +51,107 @@ df_master <- df_gs <- filter(iris_sub, Sepal.Length > 5) %>%
 iris_sub %>% 
   group_by(Species) %>%
   summarize(mean_pw = mean(Petal.Width))
+
+
+# ggplot  -----------------------------------------------------------------
+#basic syntax without pipe
+g_example <- ggplot(data = iris,
+      mapping = aes(x = Sepal.Length,
+                    y = Sepal.Width)) +
+      geom_point()
+#first argument is the dataset you want to work with
+#second argument often "mapping"
+
+#with pipe
+iris %>%
+  ggplot(mapping = aes(x = Sepal.Length,
+                       y = Sepal.Width)) +
+  geom_point()
+
+#color!!! <3
+iris %>%
+  ggplot(mapping = aes(x = Sepal.Length,
+                       y = Sepal.Width,
+                       color = Species)) +
+  geom_point()
+
+#pitfall, when you color points or anything 
+# iris %>%
+#  ggplot(mapping = aes(x = Sepal.Length,
+#                       y = Sepal.Width),
+#                       color = Species) +
+#   geom_point()
+  
+g_col <- iris_sub %>%
+  ggplot(mapping = aes(x = Sepal.Length,
+                       y = Sepal.Width)) +
+  geom_point(color = "salmon")
+
+
+# line plot ---------------------------------------------------------------
+df0 <- tibble(x = rep(1:50, 3),
+              y = x * 2)
+df0 %>%
+  ggplot(aes(x = x,
+             y = y)) +
+  geom_line()
+
+
+# histogram ---------------------------------------------------------------
+# basic plot; bins = 30 by default
+iris %>% 
+  ggplot(aes(x = Sepal.Length)) +
+  geom_histogram()
+
+#create a historgram colored by species
+iris %>% 
+  ggplot(aes(x = Sepal.Length, 
+             color = Species)) +
+  geom_histogram()
+
+#fill by species color 
+iris %>% 
+  ggplot(aes(x = Sepal.Length, 
+             fill = Species)) +
+  geom_histogram()
+
+
+
+# boxplot -----------------------------------------------------------------
+# basic plot
+iris %>% 
+  ggplot(aes(x = Species,
+             y = Sepal.Length)) +
+  geom_boxplot()
+
+#boxplot filled by species 
+iris %>% 
+  ggplot(aes(x = Species,
+             y = Sepal.Length,
+             fill = Species)) +
+  geom_boxplot()
+
+
+#use multiple layers to plot different types of info 
+iris %>%
+  ggplot(aes(x = Species,
+             y = Sepal.Length,
+             fill = Species)) +
+  geom_boxplot() +
+  geom_jitter(alpha = 0.5)
+
+#other
+iris %>%
+  ggplot(aes(x = Species,
+             y = Sepal.Length,
+             fill = Species)) +
+  geom_boxplot() +
+  
+  
+  
+  
+#data-to-viz.com
+  
+
+
+
