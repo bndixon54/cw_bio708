@@ -145,7 +145,7 @@ iris %>%
   ggplot(aes(x = Species,
              y = Sepal.Length,
              fill = Species)) +
-  geom_boxplot() +
+  geom_boxplot()
   
   
   
