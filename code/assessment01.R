@@ -29,8 +29,11 @@ m_num <- matrix(1:9, ncol = 3, nrow = 3)
 # 5: Create a base R data frame (`data.frame()` function) using `v_x` and `v_abc100`.  
 # Name the columns `"x"` for `v_x` and `"group"` for `v_abc`, and assign it to `df_sample`.
 
-df_sample <- data.frame(v_x = "x", v_abc = "group")
+#original:
+#df_sample <- data.frame(v_x = "x", v_abc = "group")
 
+#edit: 
+df_sample <- data.frame(x = v_x, group = v_abc)
 
 # tidyverse ---------------------------------------------------------------
 
@@ -70,8 +73,11 @@ v_make <- rownames(mtcars)
 
 # 10: Add `v_make` as a new column to `df_mtcars` and name the column `"make"`.
 
-mutate(df_mtcars, v_make = "make")
+#original:
+#mutate(df_mtcars, v_make = "make")
 
+#edit: 
+df_mtcars <- mutate(df_mtcars, make = v_make)
 
 # 11: Filter `df_mtcars` to include only rows where:  
 # - `mpg` is less than 20 AND  
@@ -97,46 +103,41 @@ n_make <- df_mtcars %>%
 # 14: Convert the `cyl` column from numeric to factor using `factor()`.  
 # Add it to `df_mtcars` as a new column named `f_cyl` using `mutate()` function.
 
-?factor  
-  
+df_mtcars <- mutate(df_mtcars, f_cyl = factor(cyl)) 
   
 
-  
-  
 
 # 15: Draw a box plot showing car weight (`wt`) for each number of cylinders (`f_cyl`).
-#cant move forward without figuring out #14...
 
-???
 df_mtcars %>%
   ggplot(aes( x = wt,
-              y = cyl)) + 
+              y = f_cyl)) + 
   geom_boxplot()
-
-
-
-
 
 
 # 16: Calculate the average car weight (`wt`) separately for each number of cylinders (`cyl`).
 
+????????????????????????
+df_mtcars %>%
+  group_by(f_cyl) %>% 
+  summarize(mean(f_cyl))
 
-
-
+#average weight is 
 
 
 # 17: Identify the heaviest car make (`wt`) among cars with 6 cylinders (`cyl`).
 
+df_mtcars %>%
+  group_by(cyl = 6) %>% 
+  arrange(df_mtcars, wt)
 
-
-
-
+#heaviest is Lincoln Continental
 
 # 18: Create a histogram showing the distribution of 1/4 mile time (`qsec`).
 
-
-
-
+df_mtcars %>%
+  ggplot(aes(x = qsec)) +
+  geom_histogram()
 
 
 # 19: The following script creates two tibbles:  
@@ -157,7 +158,25 @@ df_length <- tibble(length = v_l,
                     sp_code = v_sp)
 
 df_weight <- tibble(weight = v_w,
-                    sp_code = v_sp
+                    sp_code = v_sp)
+        
 
-# 20: Draw a scatter plot (point plot) of `length` vs. `weight` from `df_fish`,  
+            
+df_fish <-  left_join(x = df_length,
+                      y = df_weight, 
+                      by = "sp_code")
+  
+  #I think this is right, but it wasn't working at first(?)                   
+  
+
+# 20: Draw a scatter plot (point plot) of `length` vs. `weight` from `df_fish`, 
 # coloring the points by species code (`sp_code`).
+
+df_fish %>%
+  ggplot(aes(x = length,
+             y = weight,
+             color = sp_code)) +
+  geom_point()
+
+
+  #I've never seen a chart that looks like this, so it seems wrong. I don't know! 
