@@ -20,6 +20,18 @@ v_x <- rnorm(100)
 
 mu_x_plus <- mean(v_x[v_x >0])
 
+
+#going over in class 9 September 2025: 
+v_y <- c(-1, 1, -1)
+v_y
+v_y > 0
+mean(v_y > 0)
+
+v_y[v_y > 0] %>% 
+  mean()
+
+
+
 # 4: Create a numeric matrix with the numbers 1 through 9 arranged in 3 rows × 3 columns.  
 # Assign it to `m_num`.
 
