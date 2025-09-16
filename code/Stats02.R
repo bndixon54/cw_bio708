@@ -1,14 +1,9 @@
 #16 September 2025 - Sampling in class 
 #command + shift + N is hotkey for creating a new file in R
-
+install.packages("tidyverse")
 library(tidyverse)
-install.packages("ggplot2")
-install.packages("patchwork")
-library(patchwork)
-
 
 # 10 individual samples ---------------------------------------------------
-
 #first data set
 h1 <- c(16.9, 20.9, 15.8, 28, 21.6, 15.9, 22.4, 23.7, 22.9, 18.5)
 
@@ -24,22 +19,20 @@ df_h1 <- df_h1 %>%
 print(df_h1)
 
 
-
 #different data set
 h2 <- c(27.6, 21.9, 16.9, 8.9, 25.6, 19.8, 19.9, 24.7, 24.1, 23)
 
 df_h2 <- tibble(plant_id = 11:20, # a vector from 11 to 20 by 1
                 height = h2,
                 unit = "cm") %>% 
-  mutate(mu_h = mean(height),
-         var_height = sum((height - mu_h)^2) / nrow(.))
+  mutate(mu_h2 = mean(h2),
+         var_h2 = sum((h2 - mu_h2)^2) / nrow(.))
 
 print(df_h2)
 
 #parameter is an unknown constant that represents the entire data set, but cannot be measured. 
 #in this data set, parameter is the mean 
 #sample mean is unbiased estimation of the overall mean
-
 
 #read garden data that was saved as a csv file 
 
@@ -54,17 +47,61 @@ mu <- mean(df_h0$height) #true mean
 sigma2 <- sum((df_h0$height - mu)^2) / nrow(df_h0) #true variance
 
 
-#determine if these are biased or unbiased estimates by repeating the estimation processs with FOOR LOOP
-mu_i <- var_i <- NULL
+#simulate sampling 10 random plants
+df_i <- df_h0 %>% 
+  sample_n(size = 10) #size specifies the number of rows to be selected randomly
+
+print(df_i)
+
+
+
+# for loop section --------------------------------------------------------
+
+#obtain 100 sets of 10 randomly selected plants using for loop
+#determine if these are biased or unbiased estimates by repeating the estimation process
+set.seed(3)
+mu_i <- var_i <- NULL 
 
 for (i in 1:100) {df_i <- df_h0 %>%
-                      sample_n(10)
-                      (mu_i[i] <- mean(df_i$height))
-                      (var_i[i] <- mean((df_i$height - mean(df_i$height))^2) / nrow(df_i))}
+                      sample_n(size = 10)
+                      (mu_i[i] <- mean(df_i$height)
+                      (var_i[i] <- mean((df_i$height - mean(df_i$height))^2) / nrow(df_i)}
 
 
 df_sample <- tibble(mu_hat = mu_i, 
                       var_hat = var_i)
+
+#??? not working- i cannot see how this code is any different from the one below that I copied/pasted...
+
+#copying from textbook because my code isnt working: 
+# for reproducibility
+set.seed(3)
+
+mu_i <- var_i <- NULL # create empty objects
+
+# repeat the work in {} from i = 1 to i = 100
+for (i in 1:100) {
+  
+  df_i <- df_h0 %>% 
+    sample_n(size = 10) # random samples of 10 individuals
+  
+  # save mean for sample set i
+  mu_i[i] <- mean(df_i$height)
+  
+  # save variance for sample set i
+  var_i[i] <- sum((df_i$height - mean(df_i$height))^2) / nrow(df_i) 
+  
+}
+
+
+
+# histogram section -------------------------------------------------------
+
+#install.packages("patchwork") # install only once
+library(patchwork)
+
+df_sample <- tibble(mu_hat = mu_i, var_hat = var_i)
+
 
 #histogram for the mean
 (g_mu <- df_sample %>% 
