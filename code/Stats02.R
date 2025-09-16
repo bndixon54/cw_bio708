@@ -2,6 +2,9 @@
 #command + shift + N is hotkey for creating a new file in R
 
 library(tidyverse)
+install.packages("ggplot2")
+install.packages("patchwork")
+library(patchwork)
 
 
 # 10 individual samples ---------------------------------------------------
@@ -38,7 +41,6 @@ print(df_h2)
 #sample mean is unbiased estimation of the overall mean
 
 
-
 #read garden data that was saved as a csv file 
 
 # load csv data on R; specify the file path 
@@ -48,11 +50,11 @@ df_h0 <- read_csv(here::here("data_raw/data_plant_height.csv"))
 print(df_h0)
 
 #calculate true mean (average for 1000 individuals) and true variance 
-mu <- mean(df_h0$height)
-sigma2 <- sum((df_h0$height - mu)^2) / nrow(df_h0)
+mu <- mean(df_h0$height) #true mean
+sigma2 <- sum((df_h0$height - mu)^2) / nrow(df_h0) #true variance
 
 
-#determine if these are biased or unbiased estimates by repeating the estimation processs
+#determine if these are biased or unbiased estimates by repeating the estimation processs with FOOR LOOP
 mu_i <- var_i <- NULL
 
 for (i in 1:100) {df_i <- df_h0 %>%
@@ -61,38 +63,22 @@ for (i in 1:100) {df_i <- df_h0 %>%
                       (var_i[i] <- mean((df_i$height - mean(df_i$height))^2) / nrow(df_i))}
 
 
-#____________________________________________________________
-#randomly select 10 rows with sample_n function 
-df_i <- df_h0 %>%
-  sample_n(10)
-#____________________________________________________________
-#repeat process over and over again
-mu_i <- mean(df_i$height) 
-var_i <- mean((df_i$height - mu_i)^2) / nrow(df_i) #variance
-#_____________________________________________________________
-#install.packages("ggplot2")
-#install.packages("patchwork")
-library(patchwork)
-
-
 df_sample <- tibble(mu_hat = mu_i, 
                       var_hat = var_i)
 
 #histogram for the mean
-g_mu <- df_sample %>% 
+(g_mu <- df_sample %>% 
   ggplot(aes(x = mu_i)) +
   geom_histogram() + 
-  geom_vline(xintercept = mu)
+  geom_vline(xintercept = mu))
 
 #histogram for variance 
-g_var <- df_sample %>% 
+(g_var <- df_sample %>% 
   ggplot(aes(x = var_i)) +
   geom_histogram() + 
-  geom_vline(xintercept = sigma2) 
-#mine here looks super off. histogram skewed to the far left, but the line is on the far right not touching the figure itself ??
+  geom_vline(xintercept = sigma2))
 
 g_mu / g_var 
-#Error in g_mu/g_var : non-numeric argument to binary operator ??
 
 
 #_______________________________________________________________________________
