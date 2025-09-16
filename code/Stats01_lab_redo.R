@@ -1,32 +1,22 @@
-#11 September 2025 Lab
-
+#11 Sept Lab redo
 library(tidyverse)
 
-# 7.3.1 central tendency --------------------------------------------------------
-
-#1. Create a new vector z with length 1000 as exp(rnorm(n = 1000, mean = 0, sd = 0.1)), and calculate the arithmetic mean, geometric mean, and median.
-
+#1. Create a new vector z with length 100 as exp(rnorm(n = 100, mean = 0, sd = 0.1)), and calculate the arithmetic mean, geometric mean, and median of z.
 z <- exp(rnorm(n = 1000, mean = 0, sd = 0.1))
 
-#arithmetic mean
+#arithmetic mean is sum of vector divided by length of sum of vector 
 mu_z <- sum(z) / length(z)
-#or just use built in function
-am_z <- mean(z)
 
-#geometric mean
-#calculate using prod(), length(), ^
-prod(z)^ (1 / length(z))
+#geometric mean can be calculated by scratch or calculated with built-in function
+prod_z <- prod(z) # product of vector x; x1 * x2 * x3...
+n_z <- length(z)
+geom_z <- prod_z^(1 / n_z)
+              # OR
+geom_z <- exp(mean(log(z)))
 
-#or take in log scale
-geo_z <- exp(mean(log(z)))
-
-#median 
-z <- exp(rnorm(n = 1000, mean = 0, sd = 0.1))
-z <- sort(z)   #sorts vector from smallest to largest
-index <- (length(z) + 1) / 2   #DONT FORGET parenthesis on numerator!!!
-z[index]
-#or built in function
+#median just use built in function...
 med_z <- median(z)
+
 
 
 #2. Draw a histogram of z using functions tibble(), ggplot(), and geom_histogram().
@@ -36,50 +26,58 @@ df_z %>%
   ggplot(aes(x = x)) +
   geom_histogram() 
 
+
+
 #3. Draw vertical lines of arithmetic mean, geometric mean, and median on the histogram with different colors using a function geom_vline().
 g1 <- df_z %>%
   ggplot(aes(x = x)) +
   geom_histogram() +
-  geom_vline(xintercept = am_z) +
-  geom_vline(xintercept = geo_z,
+  geom_vline(xintercept = mu_z,
              color = "red") +
+  geom_vline(xintercept = geom_z,
+            color = "blue") +
   geom_vline(xintercept = med_z,
              color = "green")
 print(g1)
 
-#4. Compare the values of the central tendency measures.
 
 
 #5. Create a new vector z_rev as -z + max(z) + 0.1, and repeat step 1 – 4.
 z_rev <- -z + max(z) + 0.1
 
-#5.1 arithmetic mean
-am_z_rev <- mean(z_rev)
+#arithmetic mean is sum of vector divided by length of sum of vector 
+mu_z_rev <- sum(z_rev) / length(z_rev)
 
-#5.2 geometric mean
-geo_z_rev <- exp(mean(log(z_rev)))
+#geometric mean from built-in function
+geom_z_rev <- exp(mean(log(z_rev)))
 
-#5.3 median 
+#median from built in function
 med_z_rev <- median(z_rev)
 
-#5.4 histogram with lines
-df_z_rev <- tibble(x = z)
+
+
+
+#2. Draw a histogram of z using functions tibble(), ggplot(), and geom_histogram().
+df_z_rev <- tibble(x = z_rev)
 
 df_z_rev %>%
   ggplot(aes(x = x)) +
   geom_histogram() 
 
+
+
+#3. Draw vertical lines of arithmetic mean, geometric mean, and median on the histogram with different colors using a function geom_vline().
 g2 <- df_z_rev %>%
   ggplot(aes(x = x)) +
   geom_histogram() +
-  geom_vline(xintercept = am_z_rev) +
-  geom_vline(xintercept = geo_z_rev,
+  geom_vline(xintercept = mu_z_rev,
              color = "red") +
+  geom_vline(xintercept = geom_z_rev,
+             color = "blue") +
   geom_vline(xintercept = med_z_rev,
              color = "green")
 print(g2)
 
-#This still doesnt seem right but I'm not sure what I am doing wrong
 
 
 # 7.3.2 variation ---------------------------------------------------------------
@@ -108,4 +106,6 @@ cv_m <- s_m / mean(m)
 #MAD
 madr_w <- mad_w / median(w)
 madr_m <- mad_m / median(m)
-  
+
+
+
