@@ -1,6 +1,6 @@
 #16 September 2025 - Sampling in class 
 #command + shift + N is hotkey for creating a new file in R
-install.packages("tidyverse")
+#install.packages("tidyverse")
 library(tidyverse)
 
 # 10 individual samples ---------------------------------------------------
@@ -62,10 +62,10 @@ print(df_i)
 set.seed(3)
 mu_i <- var_i <- NULL 
 
-for (i in 1:100) {df_i <- df_h0 %>%
-                      sample_n(size = 10)
-                      (mu_i[i] <- mean(df_i$height)
-                      (var_i[i] <- mean((df_i$height - mean(df_i$height))^2) / nrow(df_i)}
+#for (i in 1:100) {df_i <- df_h0 %>%
+#                      sample_n(size = 10)
+#                      (mu_i[i] <- mean(df_i$height)
+#                      (var_i[i] <- mean((df_i$height - mean(df_i$height))^2) / nrow(df_i)}
 
 
 df_sample <- tibble(mu_hat = mu_i, 
