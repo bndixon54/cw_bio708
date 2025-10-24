@@ -116,9 +116,9 @@ p0 <- pnorm(q = 0, mean = 5, sd = 3)
 p10 <- pnorm(q = 10, mean = 5, sd =3)
 
 # probability of 0 < x <= 10
-p0_10 <- p0 - p10
+p0_10 <- p10 - p0
 print(p0_10)
-#-0.904
+#0.904
 
 
 # 2. Calculate the probability that 0 < x <= 10 for a normal distribution with mean = -5 and sd = 3.
@@ -126,12 +126,9 @@ p0 <- pnorm(q = 0, mean = -5, sd = 3)
 p10 <- pnorm(q = 10, mean = -5, sd =3)
 
 # probability of 0 < x <= 10
-p0_10 <- p0 - p10
+p0_10 <- p10 - p0
 print(p0_10)
-#-0.047
-
-#I feel like a negative number probably isn't right for either of these results?
-
+#0.047
 
 # t-test ------------------------------------------------------------------
 
@@ -148,11 +145,11 @@ print(p0_10)
 df_var <- df_iris %>% 
   group_by(Species) %>% # group operation
   summarize(mu_l = mean(Petal.Length), # summarize by mean()
-            sd_l = sd(Petal.Length)) # summarize with sd()
+            sd_l = var(Petal.Length)) # summarize with sd()
 
-#setosa mu_l = 1.462, sd_l = 0.1736640
-#versicolor mu_l = 4.260, sd_l = 0.4699110
-#virginica mu_l = 5.552, sd_l = 0.5518947
+#setosa mu_l = 1.462, sd_l = 0.03015918
+#versicolor mu_l = 4.260, sd_l = 0.22081633
+#virginica mu_l = 5.552, sd_l = 0.30458776
 
 #visualize
 df_iris %>% 
@@ -184,11 +181,7 @@ y <- df_iris %>%
   filter(Species == "versicolor") %>% 
   pull(Petal.Length)
 
-t.test(x, y, var.equal = TRUE)
-
-#The result I get doesn't change whether I enter TRUE or FALSE.
-#Initially I thought the SDs did not appear equal based on my graph (and the results shown in my df_var table), so I entered FALSE. 
-
+t.test(x, y, var.equal = FALSE)
 
 
 # anova -------------------------------------------------------------------
@@ -274,10 +267,6 @@ tibble(x = f_null,
 p_value <- 1 - pf(q = f_value, 
                   df1 = 1, 
                   df2 = 70)
-
-
-#this definitely isn't right, but I feel like I plugged everything in correctly. 
-#without doing all the calculations, I can see just based on the graph from question 1 that each spray group is significantly different, but I don't have the specific statistical values to back that up (yet)
 
 
 
