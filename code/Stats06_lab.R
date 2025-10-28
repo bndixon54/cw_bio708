@@ -1,24 +1,7 @@
 #Stats 06 Lab
-
-
-
-#####################check akiras code on github
-
-
-
-
-if (!require(pacman)) install.packages("pacman")
-
-pacman::p_load(tidyverse,
-               terra,
-               tidyterra,
-               mapview,
-               stars,
-               here)
-
+library(tidyverse)
 df_iris <- iris
 #Sepal.Width (response variable, y) and Petal.Width (explanatory variable, x)
-
 
 # Setosa ------------------------------------------------------------------
 df_setosa <- df_iris %>%
@@ -30,26 +13,18 @@ df_setosa %>%
              y = Sepal.Width)) +
   geom_point()
 
-#regression            ####################
+###regression         
 m_set <- lm(Sepal.Width ~ Petal.Width, #response ~ predictor
           data = df_setosa) 
   
 alpha_set <- coef(m_set)[1]
 beta_set <- coef(m_set)[2]
-
-#line of best fit        ##################
-df_setosa %>%
-  ggplot(aes(y = Sepal.Width,
-             x = Petal.Width)) +
-  geom_point() +
-  geom_abline(intercept = alpha_set,
-              slope = beta_set)
   
-#t-value for regression slope beta #######################
+###t-value for regression slope beta
 se_set <- sqrt(diag(vcov(m_set)))
 t_value <- beta_set / se_set[2]
 
-#p-value for slope #########################
+###p-value for slope
 1 - pt(t_value, df = 48) + pt(-t_value, df = 48)
 # 0.104
 
@@ -65,26 +40,18 @@ df_versicolor %>%
              y = Sepal.Width)) +
   geom_point()
         
-#regression.    ##########################
+###regression
 m_vers <- lm(Sepal.Width ~ Petal.Width, #response ~ predictor
               data = df_versicolor) 
          
 alpha_vers <- coef(m_vers)[1]
 beta_vers <- coef(m_vers)[2]
-         
-#line of best fit  ##########################
-df_versicolor %>%
-  ggplot(aes(y = Sepal.Width,
-               x = Petal.Width)) +
-   geom_point() +
-   geom_abline(intercept = alpha_vers,
-              slope = beta_vers)
 
-#t-value for regression slope beta ############################
+###t-value for regression slope beta
 se_vers <- sqrt(diag(vcov(m_vers)))
 t_value <- beta_vers / se_vers[2]
          
-#p-value for slope.  ##################
+###p-value for slope
 1 - pt(t_value, df = 48) + pt(-t_value, df = 48)
 # 1.466
 
@@ -99,26 +66,18 @@ df_virginica %>%
              y = Sepal.Width)) +
   geom_point()
 
-#regression ###################################
+###regression
 m_vir <- lm(Sepal.Width ~ Petal.Width, #response ~ predictor
              data = df_versicolor) 
 
 alpha_vir <- coef(m_vir)[1]
 beta_vir <- coef(m_vir)[2]
 
-#line of best fit  #######################################
-df_virginica %>%
-  ggplot(aes(y = Sepal.Width,
-             x = Petal.Width)) +
-  geom_point() +
-  geom_abline(intercept = alpha_vir,
-              slope = beta_vir)
-
-#t-value for regression slope beta  #################
+###t-value for regression slope beta
 se_vir <- sqrt(diag(vcov(m_vir)))
 t_value <- beta_vir / se_vir[2]
 
-#p-value for slope  ##############################
+###p-value for slope
 1 - pt(t_value, df = 48) + pt(-t_value, df = 48)
 # 1.466
 
@@ -144,12 +103,6 @@ beta_vers <- coef(m_vers)[2]
 #R^2 values (which model is better?)
 
 
-
-
-
-
-
-
 # exercise 3 --------------------------------------------------------------
 #try this...
 x <- rnorm(nrow(iris), mean = 0, sd = 1)
@@ -167,5 +120,3 @@ m_ver <- lm(Sepal.Width ~ Petal.Width,
 
 m_ver_w_x <- lm(Sepal.Length ~ Petal.Width + x,
                 df_vers)
-  
-
