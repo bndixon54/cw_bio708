@@ -80,7 +80,7 @@ m2 <- lm(Sepal.Length ~ Sepal.Width + Species,
          data = iris)
 
 #visualization of ANCOVA
-#develop iris model with continuous and categorical values
+#develop linear iris model with continuous and categorical values
 m_iris <- lm(Petal.Length ~ Petal.Width + Species,
              data = iris)
 
